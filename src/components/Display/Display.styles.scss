@@ -1,0 +1,40 @@
+.display {
+  margin-top: 2em;
+  > .title {
+    text-align: center;
+    margin-bottom: 1em;
+  }
+
+  .percentage {
+    text-align: center;
+    margin-bottom: 1em;
+    .continue {
+      color: blue;
+    }
+  }
+}
+
+.lists-wrapper {
+  display: flex;
+
+  gap: 1em;
+
+  > div {
+    flex: 1;
+    .title {
+      text-align: center;
+    }
+
+    border: 1px solid blue;
+    border-radius: 0.4em;
+    padding: 0.6em;
+  }
+
+  max-width: 1000px;
+  margin: auto;
+
+  .todoo-items {
+    display: grid;
+    gap: 1em;
+  }
+}

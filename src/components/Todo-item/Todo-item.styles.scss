@@ -1,0 +1,49 @@
+.todo-item {
+  padding: 0.5em;
+  border: 1px solid black;
+  .btns-wrapper {
+    margin-top: 0.5em;
+    display: flex;
+    gap: 0.3em;
+    button {
+      padding: 0.6em 1em;
+      border: 0;
+      * &.delete-btn {
+        background-color: rgb(196, 186, 186);
+        border: 0;
+      }
+      &.update-btn {
+        background-color: rgb(135, 135, 253);
+      }
+    }
+  }
+  .label-wrapper {
+    display: flex;
+    gap: 0.5em;
+
+    .text-input-wrapper {
+      .text-input {
+        transition: 200ms;
+        border: 0;
+        pointer-events: none;
+      }
+      .ok {
+        opacity: 0;
+        cursor: pointer;
+        pointer-events: none;
+        transition: 200ms;
+      }
+      &[data-allow-modify] {
+        .text-input {
+          border: 1px solid blue;
+          padding: 1em;
+          pointer-events: all;
+        }
+        .ok {
+          opacity: 1;
+          pointer-events: all;
+        }
+      }
+    }
+  }
+}
