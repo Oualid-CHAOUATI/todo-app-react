@@ -12,8 +12,9 @@ export function Display() {
     showCompleted: () => setActiveBtn("completed"),
   };
 
+  const todoNumber = todoList.length;
   const doneNumber = completedList.length;
-  const totalNumber = todoList.length + completedList.length;
+  const totalNumber = todoNumber + doneNumber;
   let percentage =
     totalNumber == 0 ? 0 : ((100 * doneNumber) / totalNumber).toFixed(2);
   percentage = parseFloat(percentage);
@@ -48,11 +49,15 @@ export function Display() {
       </div>
       <div className="lists-wrapper">
         <div className={activeBtn == "todo" ? "show" : null}>
-          <h2 className="title">Todo</h2>
+          <h2 className="title">
+            Todo <span>{todoNumber}</span>{" "}
+          </h2>
           <DisplayList list={todoList} />
         </div>
         <div className={activeBtn == "completed" ? "show" : null}>
-          <h2 className="title">Completed</h2>
+          <h2 className="title">
+            Completed <span>{doneNumber}</span>
+          </h2>
           <DisplayList list={completedList} />
         </div>
       </div>
