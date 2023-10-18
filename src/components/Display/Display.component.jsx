@@ -1,29 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../../contexts/App.context";
-import { TodoItem } from "../Todo-item/Todo-item.component";
 
 import "./Display.styles.scss";
 import { DisplayList } from "./Display-list/Display-list.component";
 export function Display() {
-  const { todoList } = useContext(AppContext);
+  const { todoList, completedList } = useContext(AppContext);
+  const [activeBtn, setActiveBtn] = useState("todo");
 
-  const todoListDone = [];
-  const todoListUnDone = [];
+  const tabsSetters = {
+    showTodo: () => setActiveBtn("todo"),
+    showCompleted: () => setActiveBtn("completed"),
+  };
 
-  todoList.forEach((item) => {
-    item.done ? todoListDone.push(item) : todoListUnDone.push(item);
-  });
-
-  const doneNumber = todoListDone.length;
-  const totalNumber = todoList.length;
+  const doneNumber = completedList.length;
+  const totalNumber = todoList.length + completedList.length;
   let percentage =
     totalNumber == 0 ? 0 : ((100 * doneNumber) / totalNumber).toFixed(2);
   percentage = parseFloat(percentage);
 
   const showPercentage = () => {
-    if (totalNumber == 0) return null;
-    if (percentage == 100) return null;
-    return <span className="continue"> Continue</span>;
+    if (totalNumber == 0) return <span> add a task</span>;
+    if (percentage == 100) return <span> BRAVO</span>;
+    return <span> Continue</span>;
   };
   return (
     <div className="display">
@@ -33,14 +31,29 @@ export function Display() {
         {percentage}% is done
         {showPercentage()}
       </h3>
+
+      <div className="tabs-wrapper">
+        <button
+          className={activeBtn == "todo" ? "active" : null}
+          onClick={tabsSetters.showTodo}
+        >
+          Todo
+        </button>
+        <button
+          className={activeBtn == "completed" ? "active" : null}
+          onClick={tabsSetters.showCompleted}
+        >
+          completed
+        </button>
+      </div>
       <div className="lists-wrapper">
-        <div>
+        <div className={activeBtn == "todo" ? "show" : null}>
           <h2 className="title">Todo</h2>
-          <DisplayList list={todoListUnDone} />
+          <DisplayList list={todoList} />
         </div>
-        <div>
+        <div className={activeBtn == "completed" ? "show" : null}>
           <h2 className="title">Completed</h2>
-          <DisplayList list={todoListDone} />
+          <DisplayList list={completedList} />
         </div>
       </div>
     </div>

@@ -2,50 +2,96 @@ import React, { useState } from "react";
 
 const INITIAL_STATE = {
   todoList: [],
+  completedList: [],
 
   todoActions: {
-    addTodoItem: (text) => null,
-    removeTodoItem: (id) => null,
-    updateTodoItem: ({ id, text = null, done = null }) => null,
+    createItem: (text) => null,
+    deleteItem: (id, done) => null,
+    updateText: (id, text, done) => null,
+    updateDone: (id, oldDone) => null,
   },
 };
 
 export const AppContext = React.createContext(INITIAL_STATE);
 
 export const AppContextProvider = ({ children }) => {
-  // const [todoList, setTodoList] = useState([]);
   const [todoList, setTodoList] = useState([
     { id: 1, text: "haha", done: false },
   ]);
+  const [completedList, setCompletedList] = useState([
+    { id: 4, text: "haha", done: true },
+  ]);
 
-  const addTodoItem = (text) => {
+  const createItem = (text) => {
     const id = `${Math.random()}${Date.now()}`;
-
-    setTodoList((todoList) => [...todoList, { id, text, done: false }]);
+    _addToTodoList({ id, text });
   };
 
-  const removeTodoItem = (id) => {
-    const newList = todoList.filter((item) => item.id != id);
-    setTodoList(newList);
+  const _addToTodoList = ({ id, text }) => {
+    setTodoList([...todoList, { id, text, done: false }]);
   };
 
-  const updateTodoItem = ({ id, text = null, done = null }) => {
-    const selected = todoList.find((item) => item.id == id);
+  const _addToCompletedList = ({ id, text }) => {
+    setCompletedList([...completedList, { id, text, done: true }]);
+  };
 
-    console.log(selected);
+  const _deleteItemFromCompleted = (id) => {
+    _deleteItemFromAList(id, completedList, setCompletedList);
+  };
 
-    if (selected) {
-      text ? (selected.text = text) : null;
-      done != null ? (selected.done = done) : null;
-      setTodoList([...todoList]);
+  const _deleteItemFromTodo = (id) => {
+    _deleteItemFromAList(id, todoList, setTodoList);
+  };
+
+  const _deleteItemFromAList = (id, list, setList) => {
+    // debugger;
+    const newList = list.filter((item) => item.id != id);
+    if (newList.length !== list.length) {
+      setList(newList);
     }
+  };
+  const deleteItem = (id, done) => {
+    if (done) _deleteItemFromCompleted(id);
+    _deleteItemFromTodo(id);
+  };
+
+  const findItem = (id, list) => {
+    return list.find((item) => item.id == id);
+  };
+
+  const updateText = ({ id, text, done }) => {
+    // debugger;
+    const [list, setList] = done
+      ? [completedList, setCompletedList]
+      : [todoList, setTodoList];
+
+    const selected = findItem(id, list);
+    console.log("selected");
+    console.log(selected);
+    if (selected) {
+      selected.text = text;
+      setList([...list]);
+    }
+  };
+
+  const updateDone = (id, oldDone) => {
+    const [listWhereItemIs, addFunction, deleteFuntion] = oldDone
+      ? [completedList, _addToTodoList, _deleteItemFromCompleted]
+      : [todoList, _addToCompletedList, _deleteItemFromTodo];
+
+    const item = findItem(id, listWhereItemIs);
+    // const item = findItem(id, todoList) || findItem(id, completedList);
+    if (!item) return;
+    addFunction(item);
+    deleteFuntion(item.id);
   };
 
   return (
     <AppContext.Provider
       value={{
         todoList,
-        todoActions: { addTodoItem, removeTodoItem, updateTodoItem },
+        completedList,
+        todoActions: { createItem, deleteItem, updateText, updateDone },
       }}
     >
       {children}

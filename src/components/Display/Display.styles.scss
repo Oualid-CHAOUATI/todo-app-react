@@ -8,7 +8,7 @@
   .percentage {
     text-align: center;
     margin-bottom: 1em;
-    .continue {
+    span {
       color: blue;
     }
   }
@@ -21,6 +21,7 @@
 
   > div {
     flex: 1;
+    min-width: 350px;
     .title {
       text-align: center;
     }
@@ -36,5 +37,34 @@
   .todoo-items {
     display: grid;
     gap: 1em;
+  }
+}
+
+.tabs-wrapper {
+  display: none;
+}
+@media screen and (max-width: 770px) {
+  .tabs-wrapper {
+    display: flex;
+    margin-bottom: 1em;
+
+    button {
+      flex: 1;
+      padding: 1em;
+      border: 0;
+      background-color: rgb(206, 206, 224);
+      border: 1px solid white;
+
+      &.active {
+        background-color: blue;
+      }
+    }
+  }
+  .lists-wrapper > div {
+    display: none;
+
+    &.show {
+      display: block;
+    }
   }
 }

@@ -3,11 +3,18 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap");
 body {
   padding: 1em;
+  font-family: "Roboto Condensed", sans-serif;
 }
 
 button {
   cursor: pointer;
+}
+
+button,
+input {
+  font-size: inherit;
+  font-family: inherit;
 }

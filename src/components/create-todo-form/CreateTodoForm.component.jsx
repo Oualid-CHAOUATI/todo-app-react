@@ -1,11 +1,11 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useRef } from "react";
 import { AppContext } from "../../contexts/App.context";
 import "./CreateTodoForm.styles.scss";
 export function CreateTodoForm() {
   const inputRef = useRef(null);
 
   const {
-    todoActions: { addTodoItem },
+    todoActions: { createItem },
   } = useContext(AppContext);
 
   const handleAdd = (event) => {
@@ -14,7 +14,7 @@ export function CreateTodoForm() {
     const text = inputRef.current.value.trim();
 
     if (text !== "") {
-      addTodoItem(text);
+      createItem(text);
       inputRef.current.value = "";
     }
   };
@@ -24,7 +24,7 @@ export function CreateTodoForm() {
       <form onSubmit={handleAdd}>
         <div className="input-wrapper">
           <input ref={inputRef} />
-          <button>Add</button>
+          <button className="_3d-btn">Add</button>
         </div>
       </form>
     </div>

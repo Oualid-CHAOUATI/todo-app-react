@@ -5,7 +5,7 @@ import "./Todo-item.styles.scss";
 import { Checkbox } from "./checkbox/checkbox.component";
 export function TodoItem({ text, id, done }) {
   const {
-    todoActions: { updateTodoItem, removeTodoItem },
+    todoActions: { deleteItem, updateText, updateDone },
   } = useContext(AppContext);
   const textInputRef = useRef();
   const [allowModify, setAllowModify] = useState(false);
@@ -16,22 +16,22 @@ export function TodoItem({ text, id, done }) {
   };
 
   const toggleChecked = () => {
-    console.log("done in toggleChecked");
-    console.log(done);
-    updateTodoItem({ id, done: Boolean(!done) });
+    const oldDone = done;
+    updateDone(id, oldDone);
   };
 
-  const updateText = () => {
+  const updateLocalText = () => {
     const newValue = textInputRef.current.value.trim();
     if (newValue !== text) {
-      updateTodoItem({ id, text: newValue });
+      updateText({ id, text: newValue, done });
     }
     toggleAllowModify();
   };
 
-  const deleteItem = () => {
-    removeTodoItem(id);
+  const deleteItemLocal = () => {
+    deleteItem(id, done);
   };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       textInputRef.current.value = text;
@@ -48,18 +48,19 @@ export function TodoItem({ text, id, done }) {
           data-allow-modify={allowModify || null}
         >
           <input className="text-input" ref={textInputRef} />
-          <button className="ok" onClick={updateText}>
-            Ok
+          <button className="ok" onClick={updateLocalText}>
+            valider
           </button>
         </div>
       </div>
 
       <div className="btns-wrapper">
-        <button className="delete-btn" onClick={deleteItem}>
+        <button class="delete-btn _3d-btn" onClick={deleteItemLocal}>
           x
         </button>
+
         <button className="update-btn" onClick={toggleAllowModify}>
-          modifier
+          {(allowModify && "annuler") || "modifier"}
         </button>
       </div>
     </div>

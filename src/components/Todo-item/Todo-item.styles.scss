@@ -22,7 +22,13 @@
     gap: 0.5em;
 
     .text-input-wrapper {
+      display: flex;
+      flex: 1;
+      flex-wrap: wrap;
+      gap: 0.2em;
       .text-input {
+        flex: 1;
+        flex-basis: 250px;
         transition: 200ms;
         border: 0;
         pointer-events: none;
@@ -32,6 +38,11 @@
         cursor: pointer;
         pointer-events: none;
         transition: 200ms;
+        flex: 1;
+        background-color: rgb(177, 104, 255);
+        color: #fff;
+        font-weight: 700;
+        border: 0;
       }
       &[data-allow-modify] {
         .text-input {
@@ -42,6 +53,7 @@
         .ok {
           opacity: 1;
           pointer-events: all;
+          padding: 0.5em 1em;
         }
       }
     }
