@@ -15,12 +15,8 @@ const INITIAL_STATE = {
 export const AppContext = React.createContext(INITIAL_STATE);
 
 export const AppContextProvider = ({ children }) => {
-  const [todoList, setTodoList] = useState([
-    { id: 1, text: "haha", done: false },
-  ]);
-  const [completedList, setCompletedList] = useState([
-    { id: 4, text: "haha", done: true },
-  ]);
+  const [todoList, setTodoList] = useState([]);
+  const [completedList, setCompletedList] = useState([]);
 
   const createItem = (text) => {
     const id = `${Math.random()}${Date.now()}`;
